@@ -1,3 +1,4 @@
+import 'package:accessment_mobile_project/util/utils.dart';
 import 'package:flutter/material.dart';
 
 class InTroScreen extends StatefulWidget {
@@ -44,7 +45,8 @@ class _InTroScreenState extends State<InTroScreen> {
                                 color: Colors.white,
                               ),
                               backgroundColor: Colors.orange),
-                          onPressed: () {},
+                          onPressed: () =>
+                              goTo(context: context, screen: "/loginScreen"),
                           child: Text(
                             "Login",
                             style: TextStyle(color: Colors.white, fontSize: 24),
