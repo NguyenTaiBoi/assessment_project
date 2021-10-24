@@ -63,7 +63,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: screenSize(context).height * 0.05,
                 ),
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () =>
+                        goTo(context: context, screen: "/mainScreen"),
                     child: Container(
                       width: screenSize(context).width * 0.3,
                       decoration: BoxDecoration(
