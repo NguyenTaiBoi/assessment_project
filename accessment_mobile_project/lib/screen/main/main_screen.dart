@@ -1,4 +1,5 @@
 import 'package:accessment_mobile_project/screen/business/business_screen.dart';
+import 'package:accessment_mobile_project/screen/dash_board/dash_board_screen.dart';
 import 'package:accessment_mobile_project/screen/notification/notification_screen.dart';
 import 'package:accessment_mobile_project/screen/setting/setting_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,10 +20,10 @@ class _MainScreenState extends State<MainScreen> {
       body: getBody(),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.home),
-          //   label: 'Home',
-          // ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard),
+            label: 'Dash Board',
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.business),
             label: 'Business',
@@ -53,10 +54,12 @@ class _MainScreenState extends State<MainScreen> {
   Widget getBody() {
     switch (_selectedIndex) {
       case 0:
-        return BusinessScreen();
+        return DashBoardScreen();
       case 1:
-        return NotificationScreen();
+        return BusinessScreen();
       case 2:
+        return NotificationScreen();
+      case 3:
         return SettingScreen();
       default:
         return BusinessScreen();
