@@ -1,6 +1,6 @@
 import 'package:accessment_mobile_project/util/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:timelines/timelines.dart';
+import 'package:timeline_tile/timeline_tile.dart';
 
 class DashBoardScreen extends StatefulWidget {
   DashBoardScreen({Key key}) : super(key: key);
@@ -41,18 +41,50 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         child: Column(
                           children: [
                             Text("Title"),
-                            Container(
-                              child: Timeline.tileBuilder(
-                                builder: TimelineTileBuilder.fromStyle(
-                                  contentsAlign: ContentsAlign.basic,
-                                  contentsBuilder: (context, index) =>
-                                      Container(
-                                    color: Colors.black,
-                                    height: 10,
-                                    width: 10,
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: 50,
+                                    width: 50,
+                                    child: TimelineTile(
+                                      axis: TimelineAxis.horizontal,
+                                      alignment: TimelineAlign.start,
+                                      endChild: Container(
+                                        constraints: const BoxConstraints(
+                                          minWidth: 50,
+                                        ),
+                                        color: Colors.lightGreenAccent,
+                                      ),
+                                    ),
                                   ),
-                                  itemCount: 2,
-                                ),
+                                  Container(
+                                    height: 50,
+                                    width: 50,
+                                    child: TimelineTile(
+                                      indicatorStyle:
+                                          IndicatorStyle(color: Colors.green),
+                                      axis: TimelineAxis.horizontal,
+                                      alignment: TimelineAlign.start,
+                                      endChild: Container(
+                                        constraints: const BoxConstraints(
+                                          minWidth: 50,
+                                        ),
+                                        color: Colors.lightGreenAccent,
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 50,
+                                    width: 50,
+                                    child: TimelineTile(
+                                      axis: TimelineAxis.horizontal,
+                                      alignment: TimelineAlign.start,
+                                      endChild: Icon(Icons.access_alarm),
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
                           ],
