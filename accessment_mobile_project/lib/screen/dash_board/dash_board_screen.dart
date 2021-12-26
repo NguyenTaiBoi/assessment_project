@@ -1,15 +1,10 @@
+import 'package:accessment_mobile_project/screen/dash_board/dash_board_view_model.dart';
 import 'package:accessment_mobile_project/util/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
-class DashBoardScreen extends StatefulWidget {
-  DashBoardScreen({Key key}) : super(key: key);
-
-  @override
-  _DashBoardScreenState createState() => _DashBoardScreenState();
-}
-
-class _DashBoardScreenState extends State<DashBoardScreen> {
+class DashBoardScreen extends GetView<DashBoardViewModel> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -206,6 +201,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                         ),
                       ),
                     ),
+                    onTap: () =>
+                        goTo(context: context, screen: "/accessmentScreen"),
                   ),
                 ],
               ),

@@ -1,24 +1,10 @@
-import 'package:accessment_mobile_project/bloc/auth/auth_bloc.dart';
+import 'package:accessment_mobile_project/screen/login/login_view_model.dart';
 import 'package:accessment_mobile_project/util/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/simple/get_view.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({key}) : super(key: key);
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  AuthBloc authBloc;
-
-  TextEditingController userController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
+class LoginScreen extends GetView<LoginPresenter> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,18 +39,19 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _buildTextField(
-                    hintText: "User name", controller: userController),
+                    hintText: "User name",
+                    controller: controller.userController),
                 SizedBox(
                   height: screenSize(context).height * 0.05,
                 ),
                 _buildTextField(
-                    hintText: "Password", controller: passwordController),
+                    hintText: "Password",
+                    controller: controller.passwordController),
                 SizedBox(
                   height: screenSize(context).height * 0.05,
                 ),
                 TextButton(
-                    onPressed: () =>
-                        goTo(context: context, screen: "/mainScreen"),
+                    onPressed: () => controller.loginPress(),
                     child: Container(
                       width: screenSize(context).width * 0.3,
                       decoration: BoxDecoration(

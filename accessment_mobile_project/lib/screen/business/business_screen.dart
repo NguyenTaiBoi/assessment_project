@@ -1,25 +1,20 @@
 import 'package:accessment_mobile_project/constant/ui_constant.dart';
+import 'package:accessment_mobile_project/screen/business/business_view_model.dart';
 import 'package:accessment_mobile_project/util/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/simple/get_view.dart';
 
-class BusinessScreen extends StatefulWidget {
-  BusinessScreen({Key key}) : super(key: key);
-
-  @override
-  _BusinessScreenState createState() => _BusinessScreenState();
-}
-
-class _BusinessScreenState extends State<BusinessScreen> {
+class BusinessScreen extends GetView<BusinessViewModel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: _buildBody(),
+      body: _buildBody(context),
     );
   }
 
-  Padding _buildBody() {
+  Padding _buildBody(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
       child: Container(
@@ -28,29 +23,41 @@ class _BusinessScreenState extends State<BusinessScreen> {
         ),
         height: double.infinity,
         width: double.infinity,
-        child: Wrap(
-          children: [
-            BusinessItem(
-              context: context,
-              icon: "assets/icons/icon_survey.png",
-              title: "Create survey",
-            ),
-            BusinessItem(
-              context: context,
-              icon: "assets/icons/icon_chat_room.jpg",
-              title: "Create chat room",
-            ),
-            BusinessItem(
-              context: context,
-              icon: "assets/icons/icon_time_keeping.png",
-              title: "Time-keeping",
-            ),
-            BusinessItem(
-              context: context,
-              icon: "assets/icons/icon_report.png",
-              title: "Reports",
-            )
-          ],
+        child: SingleChildScrollView(
+          child: Wrap(
+            children: [
+              BusinessItem(
+                context: context,
+                icon: "assets/icons/icon_survey.png",
+                title: "Create survey",
+              ),
+              BusinessItem(
+                context: context,
+                icon: "assets/icons/icon_chat_room.jpg",
+                title: "Create chat room",
+              ),
+              BusinessItem(
+                context: context,
+                icon: "assets/icons/icon_time_keeping.png",
+                title: "Time-keeping",
+              ),
+              BusinessItem(
+                context: context,
+                icon: "assets/icons/icon_report.png",
+                title: "Reports",
+              ),
+              BusinessItem(
+                context: context,
+                icon: "assets/icons/icon_report.png",
+                title: "CERTIFICATE",
+              ),
+              BusinessItem(
+                context: context,
+                icon: "assets/icons/icon_report.png",
+                title: "Documents",
+              )
+            ],
+          ),
         ),
       ),
     );

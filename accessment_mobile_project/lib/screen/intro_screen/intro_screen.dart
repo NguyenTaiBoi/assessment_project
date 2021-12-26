@@ -1,14 +1,9 @@
+import 'package:accessment_mobile_project/screen/intro_screen/intro_view_model.dart';
 import 'package:accessment_mobile_project/util/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/simple/get_view.dart';
 
-class InTroScreen extends StatefulWidget {
-  InTroScreen({Key key}) : super(key: key);
-
-  @override
-  _InTroScreenState createState() => _InTroScreenState();
-}
-
-class _InTroScreenState extends State<InTroScreen> {
+class InTroScreen extends GetView<IntroViewModel> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
