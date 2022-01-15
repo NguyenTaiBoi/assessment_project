@@ -19,7 +19,7 @@ class _ApplicationState extends State<Application> {
       debugShowCheckedModeBanner: false,
       navigatorKey: Get.key,
       defaultTransition: Transition.fadeIn,
-      initialRoute: "/ducumentScreen",
+      initialRoute: "/loginScreen",
       getPages: Rounter.route,
     );
   }

@@ -3,7 +3,6 @@ import 'package:accessment_mobile_project/screen/dash_board/dash_board_screen.da
 import 'package:accessment_mobile_project/screen/main/main_view_model.dart';
 import 'package:accessment_mobile_project/screen/notification/notification_screen.dart';
 import 'package:accessment_mobile_project/screen/setting/setting_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';

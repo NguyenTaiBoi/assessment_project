@@ -9,6 +9,7 @@ class InTroScreen extends GetView<IntroViewModel> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         color: Colors.orange[300],
         child: Padding(
@@ -40,8 +41,7 @@ class InTroScreen extends GetView<IntroViewModel> {
                                 color: Colors.white,
                               ),
                               backgroundColor: Colors.orange),
-                          onPressed: () =>
-                              goTo(context: context, screen: "/loginScreen"),
+                          onPressed: () => goTo(screen: "/loginScreen"),
                           child: Text(
                             "Login",
                             style: TextStyle(color: Colors.white, fontSize: 24),

@@ -30,31 +30,41 @@ class BusinessScreen extends GetView<BusinessViewModel> {
                 context: context,
                 icon: "assets/icons/icon_survey.png",
                 title: "Create survey",
+                onTap: () {
+                  goTo(screen: "/createSurveyScreen");
+                },
               ),
               BusinessItem(
                 context: context,
                 icon: "assets/icons/icon_chat_room.jpg",
                 title: "Create chat room",
+                onTap: () {},
               ),
               BusinessItem(
                 context: context,
                 icon: "assets/icons/icon_time_keeping.png",
                 title: "Time-keeping",
+                onTap: () {},
               ),
               BusinessItem(
                 context: context,
                 icon: "assets/icons/icon_report.png",
                 title: "Reports",
+                onTap: () {},
               ),
               BusinessItem(
                 context: context,
                 icon: "assets/icons/icon_report.png",
                 title: "CERTIFICATE",
+                onTap: () {},
               ),
               BusinessItem(
                 context: context,
                 icon: "assets/icons/icon_report.png",
                 title: "Documents",
+                onTap: () {
+                  goTo(screen: "/ducumentScreen");
+                },
               )
             ],
           ),
@@ -75,16 +85,18 @@ class BusinessItem extends StatelessWidget {
     @required this.context,
     @required this.icon,
     @required this.title,
+    @required this.onTap,
   }) : super(key: key);
 
   final BuildContext context;
   final String icon;
   final String title;
+  final Function onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         child: Container(

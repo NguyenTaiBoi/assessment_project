@@ -4,6 +4,8 @@ import 'package:accessment_mobile_project/screen/business/business_binding.dart'
 import 'package:accessment_mobile_project/screen/business/business_screen.dart';
 import 'package:accessment_mobile_project/screen/certificate/certificate_binding.dart';
 import 'package:accessment_mobile_project/screen/certificate/certificate_screen.dart';
+import 'package:accessment_mobile_project/screen/create_survey/survey_binding.dart';
+import 'package:accessment_mobile_project/screen/create_survey/suvey_screen.dart';
 import 'package:accessment_mobile_project/screen/dash_board/dash_board_binding.dart';
 import 'package:accessment_mobile_project/screen/dash_board/dash_board_screen.dart';
 import 'package:accessment_mobile_project/screen/ducument/document_binding.dart';
@@ -83,5 +85,11 @@ class Rounter {
         name: "/ducumentScreen",
         page: () => DocumentScreen(),
         binding: DocumentBinding()),
+    GetPage(
+        transitionDuration: Duration(milliseconds: 300),
+        transition: Transition.rightToLeft,
+        name: "/createSurveyScreen",
+        page: () => CreateSurveyScreen(),
+        binding: CreateSurveyBinding()),
   ];
 }

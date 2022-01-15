@@ -1,26 +1,10 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-
-// class AuthRepository {
-//   login({String userName, String password}) async {
-//     try {
-//       var res = await http.post(
-//           Uri.parse("https://assessment-mgmt.herokuapp.com/login"),
-//           headers: {
-//             "content-type": "application/json",
-//             "accept": "application/json",
-//           },
-//           body: json.encode({"userName": userName, "password:": password}));
-//       final data = json.decode(res.body);
-//       return data;
-//     } catch (e) {
-//       print(e.toString());
-//     }
-//   }
-// }
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepository {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   AuthRepository._();
 
   static final AuthRepository _instance = AuthRepository._();
@@ -28,17 +12,19 @@ class AuthRepository {
   static AuthRepository get instance => _instance;
 
   login({String userName, String password}) async {
+    final SharedPreferences prefs = await _prefs;
     try {
       print(jsonEncode({"userName": "boi", "password:": "123"}).toString());
-      var res = await http.post(
-          Uri.parse("https://assessment-mgmt.herokuapp.com/login"),
+      var res = await http.post(Uri.parse("http://192.168.1.145:8080/login"),
           headers: {
             "content-type": "application/json",
             "accept": "application/json",
           },
           body: jsonEncode({"username": userName, "password": password}));
       final data = json.decode(res.body);
-      print(data);
+      Future<bool> token =
+          prefs.setString("tokenStorageKey", data["content"]["jwt"]);
+      print(prefs.getString("tokenStorageKey"));
       return data;
     } catch (e) {
       print(e.toString());
