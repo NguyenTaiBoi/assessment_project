@@ -11,6 +11,8 @@ class SurveyModel {
   final dynamic customer;
   final double estimatePrice;
   final dynamic inspectors;
+  final dynamic director;
+  final dynamic accountant;
 
   const SurveyModel(
       {this.name,
@@ -24,7 +26,9 @@ class SurveyModel {
       this.manager,
       this.customer,
       this.estimatePrice,
-      this.inspectors});
+      this.inspectors,
+      this.director,
+      this.accountant});
 
   factory SurveyModel.fromJson(Map<String, dynamic> json) {
     return SurveyModel(
@@ -39,7 +43,9 @@ class SurveyModel {
         manager: json['manager'] as dynamic,
         customer: json['customer'] as dynamic,
         estimatePrice: json['estimatePrice'] as dynamic,
-        inspectors: json['inspectors'] as dynamic);
+        inspectors: json['inspectors'] as dynamic,
+        director: json['director'] as dynamic,
+        accountant: json['accountant'] as dynamic);
   }
 }
 

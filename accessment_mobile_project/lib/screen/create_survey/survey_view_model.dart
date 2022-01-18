@@ -4,6 +4,8 @@ import 'package:accessment_mobile_project/data/customer_model.dart';
 import 'package:accessment_mobile_project/repository/category_repository.dart';
 import 'package:accessment_mobile_project/repository/customer_respository.dart';
 import 'package:accessment_mobile_project/repository/survey_repository.dart';
+import 'package:accessment_mobile_project/screen/dash_board/dash_board_screen.dart';
+import 'package:accessment_mobile_project/screen/dash_board/dash_board_view_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -23,6 +25,7 @@ class CreateSurveyViewModel extends GetxController with WidgetsBindingObserver {
 
   CreateSurveyModel createSurveyModel = CreateSurveyModel();
   RxBool isLoading = true.obs;
+  BuildContext context = Get.context;
 
   @override
   void onInit() {
@@ -59,6 +62,20 @@ class CreateSurveyViewModel extends GetxController with WidgetsBindingObserver {
     createSurveyModel.scene = sceneText.text;
     SurveyRepository.instance.createSurvey(createSurveyModel).then((value) {
       print(value["error"]);
+      SnackBar snackBar = SnackBar(
+        content: Text('New survey was created'),
+        backgroundColor: Colors.green,
+      );
+      if (value["status"] != 201) {
+        snackBar = SnackBar(
+          content: Text('${value["error"]}'),
+          backgroundColor: Colors.red,
+        );
+      }
+      Get.find<DashBoardViewModel>().onInit();
+      // Find the ScaffoldMessenger in the widget tree
+      // and use it to show a SnackBar.
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     });
   }
 }

@@ -24,36 +24,43 @@ class DashBoardScreen extends GetView<DashBoardViewModel> {
                       children: [
                         ListView.builder(
                           itemBuilder: (context, int index) {
-                            return _buildCartItem(context,
-                                phase: dashBoardController
-                                    .listSurveys.value[index].phase["name"],
-                                surveuName:
-                                    "[${dashBoardController.listSurveys.value[index].code}] ${dashBoardController.listSurveys.value[index].name}",
-                                assessmentCategory: dashBoardController
-                                    .listSurveys
-                                    .value[index]
-                                    .assessmentCategory["name"],
-                                createAt: dashBoardController
-                                    .listSurveys.value[index].createAt,
-                                dueDay: dashBoardController
-                                    .listSurveys.value[index].dueDate,
-                                status: dashBoardController
-                                    .listSurveys.value[index].status,
-                                code: dashBoardController
-                                    .listSurveys.value[index].code,
-                                sence: dashBoardController
-                                    .listSurveys.value[index].scene,
-                                manager: dashBoardController.listSurveys
-                                    .value[index].manager["username"],
-                                customer: dashBoardController.listSurveys
-                                    .value[index].customer["custNameIT"],
-                                estimatePrice: dashBoardController
-                                    .listSurveys.value[index].estimatePrice
-                                    .toString(),
-                                nodeOther: dashBoardController.listSurveys
-                                        .value[index].phase["nodeOrder"] -
-                                    1,
-                                inspectors: dashBoardController.listSurveys.value[index].inspectors);
+                            return _buildCartItem(
+                              context,
+                              phase: dashBoardController
+                                  .listSurveys.value[index].phase["name"],
+                              surveuName:
+                                  "[${dashBoardController.listSurveys.value[index].code}] ${dashBoardController.listSurveys.value[index].name}",
+                              assessmentCategory: dashBoardController
+                                  .listSurveys
+                                  .value[index]
+                                  .assessmentCategory["name"],
+                              createAt: dashBoardController
+                                  .listSurveys.value[index].createAt,
+                              dueDay: dashBoardController
+                                  .listSurveys.value[index].dueDate,
+                              status: dashBoardController
+                                  .listSurveys.value[index].status,
+                              code: dashBoardController
+                                  .listSurveys.value[index].code,
+                              sence: dashBoardController
+                                  .listSurveys.value[index].scene,
+                              manager: dashBoardController
+                                  .listSurveys.value[index].manager["username"],
+                              customer: dashBoardController.listSurveys
+                                  .value[index].customer["custNameIT"],
+                              estimatePrice: dashBoardController
+                                  .listSurveys.value[index].estimatePrice
+                                  .toString(),
+                              nodeOther: dashBoardController.listSurveys
+                                      .value[index].phase["nodeOrder"] -
+                                  1,
+                              inspectors: dashBoardController
+                                  .listSurveys.value[index].inspectors,
+                              director: dashBoardController.listSurveys
+                                  .value[index].director["username"],
+                              accountant: dashBoardController.listSurveys
+                                  .value[index].accountant["username"],
+                            );
                           },
                           itemCount:
                               dashBoardController.listSurveys.value.length,
@@ -64,39 +71,53 @@ class DashBoardScreen extends GetView<DashBoardViewModel> {
                               )
                             : ListView.builder(
                                 itemBuilder: (context, int index) {
-                                  return _buildCartItem(context,
-                                      phase: dashBoardController
-                                          .listSurveysGoing
-                                          .value[index]
-                                          .phase["name"],
-                                      surveuName:
-                                          "[${dashBoardController.listSurveysGoing.value[index].code}] ${dashBoardController.listSurveysGoing.value[index].name}",
-                                      assessmentCategory: dashBoardController
-                                          .listSurveysGoing
-                                          .value[index]
-                                          .assessmentCategory["name"],
-                                      createAt: dashBoardController
-                                          .listSurveysGoing
-                                          .value[index]
-                                          .createAt,
-                                      dueDay: dashBoardController
-                                          .listSurveysGoing
-                                          .value[index]
-                                          .dueDate,
-                                      status: dashBoardController
-                                          .listSurveysGoing.value[index].status,
-                                      code: dashBoardController
-                                          .listSurveysGoing.value[index].code,
-                                      sence: dashBoardController
-                                          .listSurveysGoing.value[index].scene,
-                                      manager: dashBoardController
-                                          .listSurveysGoing
-                                          .value[index]
-                                          .manager["username"],
-                                      customer: dashBoardController.listSurveysGoing.value[index].customer["custNameIT"],
-                                      estimatePrice: dashBoardController.listSurveysGoing.value[index].estimatePrice.toString(),
-                                      nodeOther: dashBoardController.listSurveysGoing.value[index].phase["nodeOrder"] - 1,
-                                      inspectors: dashBoardController.listSurveysGoing.value[index].inspectors);
+                                  return _buildCartItem(
+                                    context,
+                                    phase: dashBoardController.listSurveysGoing
+                                        .value[index].phase["name"],
+                                    surveuName:
+                                        "[${dashBoardController.listSurveysGoing.value[index].code}] ${dashBoardController.listSurveysGoing.value[index].name}",
+                                    assessmentCategory: dashBoardController
+                                        .listSurveysGoing
+                                        .value[index]
+                                        .assessmentCategory["name"],
+                                    createAt: dashBoardController
+                                        .listSurveysGoing.value[index].createAt,
+                                    dueDay: dashBoardController
+                                        .listSurveysGoing.value[index].dueDate,
+                                    status: dashBoardController
+                                        .listSurveysGoing.value[index].status,
+                                    code: dashBoardController
+                                        .listSurveysGoing.value[index].code,
+                                    sence: dashBoardController
+                                        .listSurveysGoing.value[index].scene,
+                                    manager: dashBoardController
+                                        .listSurveysGoing
+                                        .value[index]
+                                        .manager["username"],
+                                    customer: dashBoardController
+                                        .listSurveysGoing
+                                        .value[index]
+                                        .customer["custNameIT"],
+                                    estimatePrice: dashBoardController
+                                        .listSurveysGoing
+                                        .value[index]
+                                        .estimatePrice
+                                        .toString(),
+                                    nodeOther: dashBoardController
+                                            .listSurveysGoing
+                                            .value[index]
+                                            .phase["nodeOrder"] -
+                                        1,
+                                    inspectors: dashBoardController
+                                        .listSurveysGoing
+                                        .value[index]
+                                        .inspectors,
+                                    director: dashBoardController.listSurveys
+                                        .value[index].director["username"],
+                                    accountant: dashBoardController.listSurveys
+                                        .value[index].accountant["username"],
+                                  );
                                 },
                                 itemCount: dashBoardController
                                     .listSurveysGoing.value.length,
@@ -116,10 +137,10 @@ class DashBoardScreen extends GetView<DashBoardViewModel> {
         bottom: const TabBar(
           tabs: [
             Tab(
-              text: "Projects assigned",
+              text: "Projects on going",
             ),
             Tab(
-              text: "Projects on going",
+              text: "Projects assigned",
             ),
           ],
         ));
@@ -140,12 +161,14 @@ class DashBoardScreen extends GetView<DashBoardViewModel> {
     String estimatePrice,
     int nodeOther,
     dynamic inspectors,
+    String director,
+    String accountant,
   }) {
     return InkWell(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
         child: Container(
-          height: screenSize(context).height / 2.5,
+          height: screenSize(context).height / 2.2,
           width: screenSize(context).width,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
@@ -231,7 +254,7 @@ class DashBoardScreen extends GetView<DashBoardViewModel> {
                   children: [
                     ConstrainedBox(
                       constraints: BoxConstraints(
-                          maxWidth: screenSize(context).width - 200),
+                          maxWidth: screenSize(context).width - 250),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -292,7 +315,7 @@ class DashBoardScreen extends GetView<DashBoardViewModel> {
       ),
       onTap: () => goTo(
           screen: "/accessmentScreen",
-          arg: [code, sence, manager, phase, inspectors]),
+          arg: [code, sence, manager, phase, inspectors, director, accountant]),
     );
   }
 

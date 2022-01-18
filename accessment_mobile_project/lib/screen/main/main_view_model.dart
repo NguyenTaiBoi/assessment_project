@@ -1,6 +1,7 @@
 import 'package:accessment_mobile_project/data/survey_model.dart';
 import 'package:accessment_mobile_project/repository/survey_repository.dart';
 import 'package:accessment_mobile_project/repository/uer_repository.dart';
+import 'package:accessment_mobile_project/screen/login/login_view_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -35,7 +36,8 @@ class MainViewNModel extends GetxController with WidgetsBindingObserver {
     // _listSurveys = await UserRepository.instance.getUerInfo("anh");
     // debugPrint(_listSurveys.toString());
     // if (res["status"] == 200) {}
-    listSurveys = await SurveyRepository.instance.getSurveyDone("anh");
+    listSurveys = await SurveyRepository.instance
+        .getSurveyDone(Get.find<LoginPresenter>().userName.value);
     // _surveyName.value = _listSurveys[0].name;
     // _dueDay.value = resp[0].dueDate;
     // _createAt.value = resp[0].createAt;

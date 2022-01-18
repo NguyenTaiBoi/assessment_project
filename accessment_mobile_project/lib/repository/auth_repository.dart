@@ -14,13 +14,13 @@ class AuthRepository {
   login({String userName, String password}) async {
     final SharedPreferences prefs = await _prefs;
     try {
-      print(jsonEncode({"userName": "boi", "password:": "123"}).toString());
       var res = await http.post(Uri.parse("http://192.168.1.145:8080/login"),
           headers: {
             "content-type": "application/json",
             "accept": "application/json",
           },
           body: jsonEncode({"username": userName, "password": password}));
+      print("${res.statusCode}");
       final data = json.decode(res.body);
       Future<bool> token =
           prefs.setString("tokenStorageKey", data["content"]["jwt"]);

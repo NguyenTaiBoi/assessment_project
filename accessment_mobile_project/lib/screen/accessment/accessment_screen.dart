@@ -2,13 +2,14 @@ import 'package:accessment_mobile_project/screen/accessment/accessment_view_mode
 import 'package:accessment_mobile_project/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 
 class AccessmentScreen extends GetView<AccessmentViewModel> {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
         appBar: AppBar(
-          title: Text(Get.arguments[0].toString()),
+          title: Text(controller.surveyCode),
         ),
         body: controller.isLoading.value
             ? Center(child: CircularProgressIndicator())
@@ -20,14 +21,13 @@ class AccessmentScreen extends GetView<AccessmentViewModel> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          height: 80,
+                          height: 100,
                           width: double.infinity,
                           color: Colors.grey[600],
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Row(
                                   mainAxisAlignment:
@@ -58,9 +58,10 @@ class AccessmentScreen extends GetView<AccessmentViewModel> {
                                                   itemBuilder:
                                                       (context, index) {
                                                     return _itemItem(controller
-                                                        .manager.value);
+                                                        .managers[index]);
                                                   },
-                                                  itemCount: 1,
+                                                  itemCount: controller
+                                                      .managers.length,
                                                 ),
                                               ));
                                             });
@@ -97,10 +98,11 @@ class AccessmentScreen extends GetView<AccessmentViewModel> {
                                                   ),
                                                   itemBuilder:
                                                       (context, index) {
-                                                    return _itemItem(controller
-                                                            .listInspectors
-                                                            .value[index]
-                                                        ["username"]);
+                                                    return Obx(() => _itemItem(
+                                                        controller
+                                                                .listInspectors
+                                                                .value[index]
+                                                            ["username"]));
                                                   },
                                                   itemCount: controller
                                                       .listInspectors
@@ -125,15 +127,84 @@ class AccessmentScreen extends GetView<AccessmentViewModel> {
                                     ),
                                   ],
                                 ),
-                                Text(
-                                  Get.arguments[1].toString(),
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
+                                Row(
+                                  children: [
+                                    Text(
+                                      controller.sence,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Spacer(),
+                                    IconButton(
+                                        onPressed: () {
+                                          Get.defaultDialog(
+                                              content: Container(
+                                            height: 310,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  height: 240,
+                                                  width: 200,
+                                                  child: ListView.separated(
+                                                    separatorBuilder:
+                                                        (context, index) =>
+                                                            SizedBox(
+                                                      height: 15,
+                                                    ),
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      return Obx(() => _itemItemInspector(
+                                                          userName: controller
+                                                              .listInspector[
+                                                                  index]
+                                                              .username,
+                                                          isAdded: controller
+                                                              .listInspectorAdded[
+                                                                  index]
+                                                              .value,
+                                                          onPress: () =>
+                                                              controller
+                                                                  .tapInspector(
+                                                                      index)));
+                                                    },
+                                                    itemCount: controller
+                                                        .listInspector.length,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 15,
+                                                ),
+                                                TextButton(
+                                                    onPressed: () {
+                                                      controller
+                                                          .submitInspectors();
+                                                    },
+                                                    style: TextButton.styleFrom(
+                                                      backgroundColor:
+                                                          Colors.blue[600],
+                                                      primary: Colors.white,
+                                                      shape: const BeveledRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          5))),
+                                                    ),
+                                                    child: Text("Submit"))
+                                              ],
+                                            ),
+                                          ));
+                                        },
+                                        icon: Icon(
+                                          Icons.refresh,
+                                          color: Colors.white,
+                                        ))
+                                  ],
                                 ),
-                                // Text(Get.arguments[2].toString()),
-                                // Text("Inspector"),
                               ],
                             ),
                           ),
@@ -272,10 +343,11 @@ class AccessmentScreen extends GetView<AccessmentViewModel> {
                                     child: TextField(
                                       controller: controller.contentController,
                                       decoration: InputDecoration(
-                                          hintText: "Write message...",
-                                          hintStyle:
-                                              TextStyle(color: Colors.black54),
-                                          border: InputBorder.none),
+                                        hintText: "Write message...",
+                                        hintStyle:
+                                            TextStyle(color: Colors.black54),
+                                        border: InputBorder.none,
+                                      ),
                                     ),
                                   ),
                                   SizedBox(
@@ -422,6 +494,24 @@ class AccessmentScreen extends GetView<AccessmentViewModel> {
           width: 10,
         ),
         Text(userName)
+      ],
+    );
+  }
+
+  Widget _itemItemInspector(
+      {String userName, bool isAdded = false, Callback onPress}) {
+    return Row(
+      children: [
+        CircleAvatar(
+          backgroundColor: Colors.blue,
+        ),
+        SizedBox(
+          width: 10,
+        ),
+        Text(userName),
+        Spacer(),
+        IconButton(
+            onPressed: onPress, icon: Icon(isAdded ? Icons.cancel : Icons.add)),
       ],
     );
   }

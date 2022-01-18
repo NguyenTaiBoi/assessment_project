@@ -1,7 +1,6 @@
 import 'package:accessment_mobile_project/constant/ui_constant.dart';
 import 'package:accessment_mobile_project/screen/business/business_view_model.dart';
 import 'package:accessment_mobile_project/util/utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 
@@ -76,6 +75,7 @@ class BusinessScreen extends GetView<BusinessViewModel> {
   AppBar _buildAppBar() => AppBar(
         centerTitle: true,
         title: Text("Business"),
+        automaticallyImplyLeading: false,
       );
 }
 

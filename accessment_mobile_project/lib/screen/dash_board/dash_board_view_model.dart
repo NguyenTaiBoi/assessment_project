@@ -1,4 +1,5 @@
 import 'package:accessment_mobile_project/repository/survey_repository.dart';
+import 'package:accessment_mobile_project/screen/login/login_view_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -15,17 +16,17 @@ class DashBoardViewModel extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> getSurveyDone() async {
-    listSurveys.value = await SurveyRepository.instance.getSurveyDone("anh1");
+    listSurveys.value = await SurveyRepository.instance
+        .getSurveyDone(Get.find<LoginPresenter>().userName.value);
     if (await listSurveys.value != []) {
       isLoadingState.value = false;
     }
-    print(listSurveys.value[0].inspectors);
     update();
   }
 
   Future<void> getSurveyGoing() async {
-    listSurveysGoing.value =
-        await SurveyRepository.instance.getSurveyGoing("anh1");
+    listSurveysGoing.value = await SurveyRepository.instance
+        .getSurveyGoing(Get.find<LoginPresenter>().userName.value);
     if (await listSurveys.value != []) {
       isLoadingState.value = false;
     }

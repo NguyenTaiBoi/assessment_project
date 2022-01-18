@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:accessment_mobile_project/data/create_survey_model.dart';
 import 'package:accessment_mobile_project/data/survey_model.dart';
-import 'package:accessment_mobile_project/screen/create_survey/survey_binding.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,7 +19,7 @@ class SurveyRepository {
     try {
       var res = await http.get(
         Uri.parse(
-            "http://192.168.1.145:8080/api/survey/fetch/done/survey?username=anh"),
+            "http://192.168.1.145:8080/api/survey/fetch/done/survey?username=$userName"),
         headers: {
           "content-type": "application/json",
           "accept": "application/json",
@@ -37,7 +36,6 @@ class SurveyRepository {
         // List<SurveyModel> surveys = (json.decode(data)['content'] as List)
         //     .map((data) => SurveyModel.fromJson(data))
         //     .toList();
-        print("name>>>> ${list[1].name}");
         return list;
         // return SurveyModel.fromJson(data["content"][0]);
       }
@@ -51,7 +49,7 @@ class SurveyRepository {
     try {
       var res = await http.get(
         Uri.parse(
-            "http://192.168.1.145:8080/api/survey/fetch/in-doing/survey?username=anh"),
+            "http://192.168.1.145:8080/api/survey/fetch/in-doing/survey?username=$userName"),
         headers: {
           "content-type": "application/json",
           "accept": "application/json",
@@ -65,7 +63,6 @@ class SurveyRepository {
             .decode(utf8.decode(res.bodyBytes))['content']
             .map((data) => SurveyModel.fromJson(data))
             .toList();
-        print("name>>>> ${list[1].name}");
         return list;
       }
       return [];
@@ -103,7 +100,7 @@ class SurveyRepository {
     final SharedPreferences prefs = await _prefs;
     try {
       print("token>>> ${prefs.getString("tokenStorageKey")}");
-      var res = await http.put(
+      var res = await http.post(
           Uri.parse("http://192.168.1.145:8080/api/accountant/survey"),
           headers: {
             "content-type": "application/json",
@@ -113,6 +110,38 @@ class SurveyRepository {
           body: createSurveyModelToJson(ceateSurveyModel));
 
       final dynamic data = json.decode(res.body);
+      return data;
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<dynamic> approveInspector(
+      String surveyCode, List<String> username) async {
+    final SharedPreferences prefs = await _prefs;
+    var body = json.encode({"surveyCode": "Fm0cQ82LJr", "username": username});
+    String url =
+        "http://192.168.1.145:8080/api/manager/survey/assign?surveyCode=$surveyCode";
+    for (int i = 0; i < username.length; i++) {
+      url = "$url&username=${username[i]}";
+    }
+    try {
+      var res = await http.put(
+        Uri.parse(url),
+        headers: {
+          "content-type": "application/json",
+          "accept": "application/json",
+          'Authorization': 'Bearer ${prefs.getString("tokenStorageKey")}',
+        },
+      );
+
+      final dynamic data = json.decode(res.body);
+      if (res.statusCode == 200) {
+        print("ok");
+        print(data["content"]);
+      } else {
+        print("${data["error"]}");
+      }
       return data;
     } catch (e) {
       print(e.toString());

@@ -1,10 +1,11 @@
-import 'package:accessment_mobile_project/screen/ducument/ducument_screen.dart';
+import 'package:accessment_mobile_project/screen/file/file_view_model.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:accessment_mobile_project/util/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class DocumentScreen extends GetView<DocumentViewModel> {
-  DocumentViewModel documentViewModel = Get.put(DocumentViewModel());
+class FileScreen extends GetView<FileViewModel> {
+  FileViewModel fileViewModel = Get.put(FileViewModel());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,11 +16,17 @@ class DocumentScreen extends GetView<DocumentViewModel> {
           color: Colors.red,
         ),
         backgroundColor: Colors.yellow,
-        onPressed: () {},
+        onPressed: () async {
+          final results = await FilePicker.platform.pickFiles();
+          if (results == null) return;
+          final file = results.files.first;
+          fileViewModel.uploadFile(file.path);
+          // fileViewModel.openFile(file);
+        },
       ),
       resizeToAvoidBottomInset: false,
       appBar: _buildAppBar(),
-      body: Obx(() => documentViewModel.isLoading.value
+      body: Obx(() => fileViewModel.isLoading.value
           ? Center(child: CircularProgressIndicator())
           : Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -48,12 +55,10 @@ class DocumentScreen extends GetView<DocumentViewModel> {
                         child: ListView.separated(
                           itemBuilder: (context, index) {
                             return _itemDocument(
-                                id: documentViewModel.listDocuments[index].id
-                                    .toString(),
-                                name: documentViewModel
-                                    .listDocuments[index].name);
+                                name: fileViewModel.listFiles[index].name,
+                                url: fileViewModel.listFiles[index].url);
                           },
-                          itemCount: documentViewModel.listDocuments.length,
+                          itemCount: fileViewModel.listFiles.length,
                           separatorBuilder: (context, index) => SizedBox(
                             height: 10,
                           ),
@@ -66,15 +71,16 @@ class DocumentScreen extends GetView<DocumentViewModel> {
 
   AppBar _buildAppBar() {
     return AppBar(
-      title: Text("Document"),
+      title: Text("List files"),
       centerTitle: true,
     );
   }
 
-  Widget _itemDocument({String name, String id}) {
+  Widget _itemDocument({String name, String url}) {
     return GestureDetector(
       onTap: () {
-        goTo(screen: "/fileScreen", arg: id.toString());
+        print("$url");
+        fileViewModel.openFile(url: url, fileName: url.split("/").last);
       },
       child: Row(
         children: [
@@ -82,7 +88,13 @@ class DocumentScreen extends GetView<DocumentViewModel> {
             Icons.document_scanner,
             size: 50,
           ),
-          Text("[$id][Container]$name"),
+          Container(
+            width: 300,
+            child: Text(
+              "$name",
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
           Spacer(),
           Icon(
             Icons.delete,

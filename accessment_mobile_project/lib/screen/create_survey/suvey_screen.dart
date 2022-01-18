@@ -26,7 +26,15 @@ class CreateSurveyScreen extends GetView<CreateSurveyViewModel> {
       ),
       backgroundColor: Colors.yellow,
       onPressed: () {
-        surveyController.addSurvey();
+        Get.defaultDialog(
+            title: "Confirm to create",
+            content: Container(),
+            onConfirm: () {
+              surveyController.addSurvey();
+              Get.back();
+            },
+            onCancel: () {});
+        // surveyController.addSurvey();
       },
     );
   }

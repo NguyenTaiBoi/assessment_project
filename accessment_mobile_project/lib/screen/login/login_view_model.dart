@@ -15,8 +15,8 @@ class LoginPresenter extends GetxController with WidgetsBindingObserver {
     userName.value = userController.text.trim();
     password.value = passwordController.text.trim();
     update();
-    var res =
-        await AuthRepository.instance.login(userName: "anh", password: "123");
+    var res = await AuthRepository.instance
+        .login(userName: userName.value, password: password.value);
     if (res["status"] == 200) {
       goTo(
         screen: "/mainScreen",

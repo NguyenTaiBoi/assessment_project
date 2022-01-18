@@ -10,6 +10,8 @@ import 'package:accessment_mobile_project/screen/dash_board/dash_board_binding.d
 import 'package:accessment_mobile_project/screen/dash_board/dash_board_screen.dart';
 import 'package:accessment_mobile_project/screen/ducument/document_binding.dart';
 import 'package:accessment_mobile_project/screen/ducument/document_view_model.dart';
+import 'package:accessment_mobile_project/screen/file/file_binding.dart';
+import 'package:accessment_mobile_project/screen/file/file_screen.dart';
 import 'package:accessment_mobile_project/screen/intro_screen/intro_binding.dart';
 import 'package:accessment_mobile_project/screen/intro_screen/intro_screen.dart';
 import 'package:accessment_mobile_project/screen/login/login_binding.dart';
@@ -91,5 +93,11 @@ class Rounter {
         name: "/createSurveyScreen",
         page: () => CreateSurveyScreen(),
         binding: CreateSurveyBinding()),
+    GetPage(
+        transitionDuration: Duration(milliseconds: 300),
+        transition: Transition.rightToLeft,
+        name: "/fileScreen",
+        page: () => FileScreen(),
+        binding: FileBinding()),
   ];
 }
