@@ -1,7 +1,9 @@
 import 'package:accessment_mobile_project/data/comment_model.dart';
 import 'package:accessment_mobile_project/data/inspector_model.dart';
 import 'package:accessment_mobile_project/data/survey_model.dart';
+import 'package:accessment_mobile_project/data/user.dart';
 import 'package:accessment_mobile_project/repository/comment_repository.dart';
+import 'package:accessment_mobile_project/repository/confirmed_repository.dart';
 import 'package:accessment_mobile_project/repository/inspector_repository.dart';
 import 'package:accessment_mobile_project/repository/survey_repository.dart';
 import 'package:accessment_mobile_project/repository/uer_repository.dart';
@@ -29,11 +31,18 @@ class AccessmentViewModel extends GetxController with WidgetsBindingObserver {
   String sence = Get.arguments[1].toString();
   String director = Get.arguments[5].toString();
   String accountant = Get.arguments[6].toString();
+  List<User> _listMangers = <User>[];
+  List<User> _listDirectors = <User>[];
+  List<User> _listAccountants = <User>[];
+  List<User> get listMangers => _listMangers;
+  List<User> get listDirectors => _listDirectors;
+  List<User> get listAccountants => _listAccountants;
   List<String> managers = [
     Get.arguments[2].toString(),
     Get.arguments[5].toString(),
     Get.arguments[6].toString()
   ];
+  RxList<RxBool> _listConfirmed = RxList<RxBool>([]);
 
   @override
   onInit() {
@@ -41,6 +50,9 @@ class AccessmentViewModel extends GetxController with WidgetsBindingObserver {
 
     listComment();
     getListInspector();
+    getListUser("managers");
+    getListUser("directors");
+    getListUser("accountants");
     super.onInit();
   }
 
@@ -48,6 +60,7 @@ class AccessmentViewModel extends GetxController with WidgetsBindingObserver {
     listComments.value =
         await CommentRepository.instance.getComments(surveyCode);
     listUsers.value = await UserRepository.instance.getAllUser();
+
     isLoading.value = false;
     if (isRefresh == false) {
       listInspectors.value = Get.arguments[4];
@@ -70,6 +83,7 @@ class AccessmentViewModel extends GetxController with WidgetsBindingObserver {
           backgroundColor: Colors.green,
           content: Text("Comment successfully")));
       listRequestUser.clear();
+      listComment(isRefresh: true);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: Colors.red, content: Text("Fail to comment")));
@@ -144,13 +158,76 @@ class AccessmentViewModel extends GetxController with WidgetsBindingObserver {
       await listComment(isRefresh: true);
       listInspectors.value = res["content"]["inspectors"];
       print(listInspectors.value[1]["username"]);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.green, content: Text("Successfully")));
       update();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.red,
+          content: Text("You are not allow to assign inspector")));
     }
+
     _listAssignedInsp.clear();
     for (int i = 0; i < listInspectorAdded.length; i++) {
       listInspectorAdded[i].value = false;
     }
     Get.back();
+    update();
+  }
+
+  Future<void> postConfirm(String id) async {
+    var res = await ConfirmedRepository.instance.postConfirm(id);
+    if (res) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.green,
+          content: Text("Confirmed successfully")));
+      listComment(isRefresh: true);
+      Get.back();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.red,
+          content: Text("You are not allow to confirmed")));
+    }
+  }
+
+  Future<void> getListUser(String user) async {
+    await UserRepository.instance.getListUsers(user: user).then((value) {
+      switch (user) {
+        case "managers":
+          _listMangers = value;
+          print(_listMangers[0].username);
+          break;
+        case "directors":
+          _listDirectors = value;
+          print(_listDirectors[0].username);
+          break;
+        case "accountants":
+          _listAccountants = value;
+          print(_listAccountants[0].username);
+          break;
+      }
+      isLoading.value = false;
+    });
+    update();
+  }
+
+  Future<void> updateUser(
+      String surveyCode, String fromUser, String toUser) async {
+    await UserRepository.instance
+        .changeManager(surveyCode, fromUser, toUser)
+        .then((value) {
+      if (value["status"] == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: Colors.green,
+            content: Text("Assign employee successfully")));
+        listComment(isRefresh: true);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: Colors.red,
+            content: Text("You are not allow to assign employee")));
+      }
+      isLoading.value = false;
+    });
     update();
   }
 }

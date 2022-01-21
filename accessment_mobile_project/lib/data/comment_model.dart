@@ -3,11 +3,14 @@ class CommentModel {
   final String content;
   final dynamic user;
   final dynamic confirmations;
+  final int id;
 
-  const CommentModel({this.user, this.content, this.title, this.confirmations});
+  const CommentModel(
+      {this.user, this.content, this.title, this.confirmations, this.id});
 
   factory CommentModel.fromJson(Map<String, dynamic> json) {
     return CommentModel(
+      id: json['id'] as int,
       title: json['title'] as String,
       content: json['content'] as String,
       user: json['user'] as dynamic,

@@ -49,7 +49,9 @@ class BusinessScreen extends GetView<BusinessViewModel> {
                 context: context,
                 icon: "assets/icons/icon_report.png",
                 title: "Reports",
-                onTap: () {},
+                onTap: () {
+                  goTo(screen: "/reportScreen");
+                },
               ),
               BusinessItem(
                 context: context,

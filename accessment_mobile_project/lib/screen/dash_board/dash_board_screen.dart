@@ -113,10 +113,16 @@ class DashBoardScreen extends GetView<DashBoardViewModel> {
                                         .listSurveysGoing
                                         .value[index]
                                         .inspectors,
-                                    director: dashBoardController.listSurveys
-                                        .value[index].director["username"],
-                                    accountant: dashBoardController.listSurveys
-                                        .value[index].accountant["username"],
+                                    director: dashBoardController
+                                            .listSurveysGoing
+                                            .value[index]
+                                            ?.director["username"] ??
+                                        "",
+                                    accountant: dashBoardController
+                                            .listSurveysGoing
+                                            .value[index]
+                                            ?.accountant["username"] ??
+                                        "",
                                   );
                                 },
                                 itemCount: dashBoardController
@@ -316,6 +322,16 @@ class DashBoardScreen extends GetView<DashBoardViewModel> {
       onTap: () => goTo(
           screen: "/accessmentScreen",
           arg: [code, sence, manager, phase, inspectors, director, accountant]),
+      onLongPress: () {
+        Get.defaultDialog(
+            content: Text("Are you sure to cancel this survey"),
+            onCancel: () {},
+            onConfirm: () {
+              print("$code");
+              controller.cancelSurvey(code);
+              Get.back();
+            });
+      },
     );
   }
 

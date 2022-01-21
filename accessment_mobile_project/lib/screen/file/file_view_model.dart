@@ -10,6 +10,7 @@ class FileViewModel extends GetxController with WidgetsBindingObserver {
   RxList<FileModel> _listFiles = RxList<FileModel>([]);
   List<FileModel> get listFiles => _listFiles;
   RxBool isLoading = true.obs;
+  final String id = Get.arguments;
 
   @override
   void onInit() {
@@ -18,16 +19,16 @@ class FileViewModel extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> getListFiles() async {
-    String id = Get.arguments;
     await FileRepository.instance.getListFiles(id).then((value) {
       _listFiles.value = value;
+      print(_listFiles.length);
       isLoading.value = false;
     });
     update();
   }
 
   Future<void> uploadFile(String filePath) async {
-    await FileRepository.instance.uploadFiles(1, filePath);
+    await FileRepository.instance.uploadFiles(int.parse(id), filePath);
     getListFiles();
   }
 

@@ -1,6 +1,7 @@
 import 'package:accessment_mobile_project/screen/create_survey/survey_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class CreateSurveyScreen extends GetView<CreateSurveyViewModel> {
   final surveyController = Get.put(CreateSurveyViewModel());
@@ -140,6 +141,7 @@ class CreateSurveyScreen extends GetView<CreateSurveyViewModel> {
                     controller: surveyController.durationText,
                     hintText: "Duration",
                     keyboard: TextInputType.number,
+                    suffixText: "hours",
                     onTap: () {}),
                 SizedBox(
                   height: 15,
@@ -148,6 +150,7 @@ class CreateSurveyScreen extends GetView<CreateSurveyViewModel> {
                     controller: surveyController.priceText,
                     hintText: "Eastimate price",
                     keyboard: TextInputType.number,
+                    suffixText: "VND",
                     onTap: () {}),
                 SizedBox(
                   height: 15,
@@ -173,7 +176,8 @@ class CreateSurveyScreen extends GetView<CreateSurveyViewModel> {
       {String hintText,
       TextEditingController controller,
       Function onTap,
-      TextInputType keyboard = TextInputType.text}) {
+      TextInputType keyboard = TextInputType.text,
+      String suffixText}) {
     return TextField(
       onTap: onTap,
       controller: controller,
@@ -181,6 +185,7 @@ class CreateSurveyScreen extends GetView<CreateSurveyViewModel> {
       keyboardType: keyboard,
       style: TextStyle(fontSize: 20, color: Colors.black),
       decoration: InputDecoration(
+        suffixText: suffixText ?? "",
         border: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.grey[850]),
           borderRadius: BorderRadius.circular(50.0),
@@ -198,6 +203,15 @@ class CreateSurveyScreen extends GetView<CreateSurveyViewModel> {
           borderRadius: BorderRadius.circular(50.0),
         ),
       ),
+      // onChanged: isCurrency
+      //     ? (string) {
+      //         string = '${_formatNumber(string?.replaceAll(',', '')) ?? "0"}';
+      //         controller.value = TextEditingValue(
+      //           text: string,
+      //           selection: TextSelection.collapsed(offset: string.length),
+      //         );
+      //       }
+      //     : (string) {},
     );
   }
 }

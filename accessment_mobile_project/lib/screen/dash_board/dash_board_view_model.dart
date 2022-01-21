@@ -8,6 +8,7 @@ class DashBoardViewModel extends GetxController with WidgetsBindingObserver {
   Rx<dynamic> listSurveys = Rx<dynamic>([]);
   Rx<dynamic> listSurveysGoing = Rx<dynamic>([]);
   RxBool isLoadingState = true.obs;
+  BuildContext context = Get.context;
   @override
   void onInit() {
     getSurveyDone();
@@ -27,8 +28,19 @@ class DashBoardViewModel extends GetxController with WidgetsBindingObserver {
   Future<void> getSurveyGoing() async {
     listSurveysGoing.value = await SurveyRepository.instance
         .getSurveyGoing(Get.find<LoginPresenter>().userName.value);
-    if (await listSurveys.value != []) {
+    if (await listSurveysGoing.value != []) {
       isLoadingState.value = false;
+    }
+    update();
+  }
+
+  Future<void> cancelSurvey(String code) async {
+    var res = await SurveyRepository.instance.cancelSurvey(code);
+    if (res["status"] == 200) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: Colors.green, content: Text("Successfully")));
+      getSurveyDone();
+      getSurveyGoing();
     }
     update();
   }

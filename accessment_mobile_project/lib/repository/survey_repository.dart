@@ -39,6 +39,7 @@ class SurveyRepository {
         return list;
         // return SurveyModel.fromJson(data["content"][0]);
       }
+      return [];
     } catch (e) {
       print(e.toString());
     }
@@ -125,6 +126,33 @@ class SurveyRepository {
     for (int i = 0; i < username.length; i++) {
       url = "$url&username=${username[i]}";
     }
+    try {
+      var res = await http.put(
+        Uri.parse(url),
+        headers: {
+          "content-type": "application/json",
+          "accept": "application/json",
+          'Authorization': 'Bearer ${prefs.getString("tokenStorageKey")}',
+        },
+      );
+
+      final dynamic data = json.decode(res.body);
+      if (res.statusCode == 200) {
+        print("ok");
+        print(data["content"]);
+      } else {
+        print("${data["error"]}");
+      }
+      return data;
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<dynamic> cancelSurvey(String surveyCode) async {
+    final SharedPreferences prefs = await _prefs;
+    String url =
+        "http://192.168.1.145:8080/api/accountant/survey/request-cancel-survey?code=$surveyCode";
     try {
       var res = await http.put(
         Uri.parse(url),

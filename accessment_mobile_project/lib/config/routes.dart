@@ -20,6 +20,7 @@ import 'package:accessment_mobile_project/screen/main/main_binding.dart';
 import 'package:accessment_mobile_project/screen/main/main_screen.dart';
 import 'package:accessment_mobile_project/screen/notification/notification_binding.dart';
 import 'package:accessment_mobile_project/screen/notification/notification_screen.dart';
+import 'package:accessment_mobile_project/screen/report/report_screen.dart';
 import 'package:accessment_mobile_project/screen/setting/setting_binding.dart';
 import 'package:accessment_mobile_project/screen/setting/setting_screen.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
@@ -98,6 +99,12 @@ class Rounter {
         transition: Transition.rightToLeft,
         name: "/fileScreen",
         page: () => FileScreen(),
+        binding: FileBinding()),
+    GetPage(
+        transitionDuration: Duration(milliseconds: 300),
+        transition: Transition.rightToLeft,
+        name: "/reportScreen",
+        page: () => ReportScreen(),
         binding: FileBinding()),
   ];
 }

@@ -1,3 +1,4 @@
+import 'package:accessment_mobile_project/data/user.dart';
 import 'package:accessment_mobile_project/screen/accessment/accessment_view_model.dart';
 import 'package:accessment_mobile_project/util/utils.dart';
 import 'package:flutter/material.dart';
@@ -57,8 +58,46 @@ class AccessmentScreen extends GetView<AccessmentViewModel> {
                                                   ),
                                                   itemBuilder:
                                                       (context, index) {
-                                                    return _itemItem(controller
-                                                        .managers[index]);
+                                                    return _itemItem(
+                                                        onTap: () {
+                                                          showDialog(
+                                                              context: context,
+                                                              builder:
+                                                                  (context) {
+                                                                return AlertDialog(
+                                                                    title: Text(
+                                                                        "Re-assign employee"),
+                                                                    content:
+                                                                        Container(
+                                                                      height:
+                                                                          200,
+                                                                      width:
+                                                                          200,
+                                                                      child: ListView
+                                                                          .separated(
+                                                                        separatorBuilder:
+                                                                            (context, index) =>
+                                                                                SizedBox(
+                                                                          height:
+                                                                              15,
+                                                                        ),
+                                                                        itemBuilder:
+                                                                            (context,
+                                                                                i) {
+                                                                          return _itemItem(
+                                                                              onTap: () {
+                                                                                controller.updateUser(controller.surveyCode, controller.managers[index], _getListUser(index)[i].username);
+                                                                              },
+                                                                              userName: _getListUser(index)[i].username);
+                                                                        },
+                                                                        itemCount:
+                                                                            _getListUser(index).length,
+                                                                      ),
+                                                                    ));
+                                                              });
+                                                        },
+                                                        userName: controller
+                                                            .managers[index]);
                                                   },
                                                   itemCount: controller
                                                       .managers.length,
@@ -99,7 +138,7 @@ class AccessmentScreen extends GetView<AccessmentViewModel> {
                                                   itemBuilder:
                                                       (context, index) {
                                                     return Obx(() => _itemItem(
-                                                        controller
+                                                        userName: controller
                                                                 .listInspectors
                                                                 .value[index]
                                                             ["username"]));
@@ -219,21 +258,22 @@ class AccessmentScreen extends GetView<AccessmentViewModel> {
                               color: Colors.grey,
                             ),
                             itemBuilder: (context, int index) {
-                              return _buildItemCard(
-                                context,
-                                title: controller
-                                        .listComments.value[index]?.title ??
-                                    "",
-                                content: controller
-                                        .listComments.value[index]?.content ??
-                                    "",
-                                userName: controller.listComments.value[index]
-                                        ?.user["username"] ??
-                                    "",
-                                confirmation: controller.listComments
-                                        .value[index]?.confirmations ??
-                                    [],
-                              );
+                              return _buildItemCard(context,
+                                  title: controller
+                                          .listComments.value[index]?.title ??
+                                      "",
+                                  content: controller
+                                          .listComments.value[index]?.content ??
+                                      "",
+                                  userName: controller.listComments.value[index]
+                                          ?.user["username"] ??
+                                      "",
+                                  confirmation: controller.listComments
+                                          .value[index]?.confirmations ??
+                                      [],
+                                  id: controller.listComments.value[index]?.id
+                                          .toString() ??
+                                      "");
                             },
                             itemCount: controller.listComments.value.length,
                           ),
@@ -376,7 +416,11 @@ class AccessmentScreen extends GetView<AccessmentViewModel> {
   }
 
   Widget _buildItemCard(BuildContext context,
-      {String userName, String content, String title, dynamic confirmation}) {
+      {String userName,
+      String content,
+      String title,
+      dynamic confirmation,
+      String id}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: Container(
@@ -419,13 +463,13 @@ class AccessmentScreen extends GetView<AccessmentViewModel> {
                 ? Container()
                 : Row(
                     children: [
-                      Checkbox(
-                          value: true,
-                          onChanged: (value) {
-                            // setState(() {
-                            //   checkBoxValue = value;
-                            // });
-                          }),
+                      // Checkbox(
+                      //     value: true,
+                      //     onChanged: (value) {
+                      //       // setState(() {
+                      //       //   checkBoxValue = value;
+                      //       // });
+                      //     }),
                       InkWell(
                         onTap: () {
                           if (confirmation != []) {
@@ -442,27 +486,38 @@ class AccessmentScreen extends GetView<AccessmentViewModel> {
                                         height: 15,
                                       ),
                                       itemBuilder: (context, index) {
-                                        return Row(
-                                          children: [
-                                            CircleAvatar(
-                                              backgroundColor: Colors.blue,
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(confirmation[index]["user"]
-                                                ["username"]),
-                                            Spacer(),
-                                            Icon(
-                                              confirmation[index]["status"]
-                                                  ? Icons.done
-                                                  : Icons.cancel,
-                                              color: confirmation[index]
-                                                      ["status"]
-                                                  ? Colors.greenAccent
-                                                  : Colors.redAccent,
-                                            )
-                                          ],
+                                        return InkWell(
+                                          onTap: () {
+                                            Get.defaultDialog(
+                                                content: Text(
+                                                    "Check for comfirms ?"),
+                                                onConfirm: () {
+                                                  controller.postConfirm(id);
+                                                },
+                                                onCancel: () {});
+                                          },
+                                          child: Row(
+                                            children: [
+                                              CircleAvatar(
+                                                backgroundColor: Colors.blue,
+                                              ),
+                                              SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(confirmation[index]["user"]
+                                                  ["username"]),
+                                              Spacer(),
+                                              Icon(
+                                                confirmation[index]["status"]
+                                                    ? Icons.done
+                                                    : Icons.cancel,
+                                                color: confirmation[index]
+                                                        ["status"]
+                                                    ? Colors.greenAccent
+                                                    : Colors.redAccent,
+                                              )
+                                            ],
+                                          ),
                                         );
                                       },
                                       itemCount: confirmation.length,
@@ -484,17 +539,23 @@ class AccessmentScreen extends GetView<AccessmentViewModel> {
     );
   }
 
-  Widget _itemItem(String userName) {
-    return Row(
-      children: [
-        CircleAvatar(
-          backgroundColor: Colors.blue,
-        ),
-        SizedBox(
-          width: 10,
-        ),
-        Text(userName)
-      ],
+  Widget _itemItem({
+    String userName,
+    Function onTap,
+  }) {
+    return InkWell(
+      onTap: onTap ?? () {},
+      child: Row(
+        children: [
+          CircleAvatar(
+            backgroundColor: Colors.blue,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(userName)
+        ],
+      ),
     );
   }
 
@@ -514,5 +575,19 @@ class AccessmentScreen extends GetView<AccessmentViewModel> {
             onPressed: onPress, icon: Icon(isAdded ? Icons.cancel : Icons.add)),
       ],
     );
+  }
+
+  List<User> _getListUser(int index) {
+    List<User> list = <User>[];
+    switch (index) {
+      case 0:
+        return controller.listMangers;
+      case 1:
+        return controller.listDirectors;
+      case 2:
+        return controller.listAccountants;
+      default:
+        return controller.listMangers;
+    }
   }
 }

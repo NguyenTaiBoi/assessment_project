@@ -35,6 +35,8 @@ dependencies:
   open_file: ^3.2.1
   dio: ^4.0.4
   path_provider: ^2.0.8
+  syncfusion_flutter_charts: ^19.4.43
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
